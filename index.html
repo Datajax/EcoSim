@@ -44,8 +44,19 @@
         <!-- Right: Sliders -->
         <div id="slider-panel">
           <div id="slider-panel-header">
-            <button id="btn-save-settings" class="btn-secondary btn-small">Save Settings</button>
-            <button id="btn-defaults" class="btn-secondary btn-small">Load Saved</button>
+            <div class="header-row">
+              <button id="btn-save-settings" class="btn-secondary btn-small">Save Settings</button>
+              <button id="btn-defaults" class="btn-secondary btn-small">Load Saved</button>
+            </div>
+            <div class="header-row">
+              <select id="config-select"></select>
+              <button id="btn-load-config" class="btn-secondary btn-small">Load</button>
+              <button id="btn-delete-config" class="btn-secondary btn-small btn-danger">✕</button>
+            </div>
+            <div class="header-row">
+              <input type="text" id="config-name-input" placeholder="Config name…" />
+              <button id="btn-save-config" class="btn-secondary btn-small">Save as Config</button>
+            </div>
           </div>
         </div>
       </div>

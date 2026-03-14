@@ -176,13 +176,53 @@ button:active { filter: brightness(0.9); }
   letter-spacing: 0.2px;
 }
 
+.btn-danger {
+  color: var(--carn);
+  border-color: var(--carn);
+}
+.btn-danger:hover { background: #2a1212; }
+
 /* ── Slider panel ────────────────────────────────────────────────────────── */
 
 #slider-panel-header {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   gap: 6px;
   margin-bottom: 4px;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#config-select {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#config-name-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 3px 8px;
+  font-size: 11px;
+}
+#config-name-input::placeholder { color: var(--text-dim); }
+#config-name-input:focus {
+  outline: none;
+  border-color: var(--accent);
 }
 
 #slider-panel {

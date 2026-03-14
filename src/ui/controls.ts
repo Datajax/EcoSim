@@ -2,7 +2,10 @@ import { createSliderGroup } from './sliderGroups';
 import type { SimulationEngine } from '../simulation';
 import type { SimParams, InitialCounts } from '../types';
 import { DEFAULT_PARAMS } from '../config';
-import { loadSettings, saveSettings, type PersistedSettings } from '../persistence';
+import {
+  loadSettings, saveSettings, type PersistedSettings,
+  loadNamedConfigs, addOrUpdateNamedConfig, removeNamedConfig, type NamedConfig,
+} from '../persistence';
 
 function applySettingsToSliders(
   saved: PersistedSettings,
@@ -11,7 +14,7 @@ function applySettingsToSliders(
 ): void {
   panel.querySelectorAll<HTMLInputElement>('input[type="range"][data-param-group]').forEach(input => {
     const group = input.dataset.paramGroup!;
-    const key = input.dataset.paramKey!;
+    const key   = input.dataset.paramKey!;
     let value: number | undefined;
     if (group === 'initialCounts') {
       value = (saved.initialCounts as unknown as Record<string, number>)[key];
@@ -30,6 +33,19 @@ function applySettingsToSliders(
   }
 }
 
+function populateConfigSelect(select: HTMLSelectElement, configs: NamedConfig[]): void {
+  const prev = select.value;
+  select.innerHTML = '';
+  for (const cfg of configs) {
+    const opt = document.createElement('option');
+    opt.value = cfg.name;
+    opt.textContent = cfg.name;
+    select.appendChild(opt);
+  }
+  // Restore previous selection if it still exists
+  if (configs.some(c => c.name === prev)) select.value = prev;
+}
+
 export function setupControls(
   sim: SimulationEngine,
   params: SimParams,
@@ -38,9 +54,8 @@ export function setupControls(
 ): void {
   // ── Simulation speed slider (global) ─────────────────────────────────────
   const speedSlider = document.getElementById('sim-speed') as HTMLInputElement;
-  const speedVal = document.getElementById('sim-speed-val') as HTMLSpanElement;
+  const speedVal    = document.getElementById('sim-speed-val') as HTMLSpanElement;
   if (speedSlider && speedVal) {
-    // Initialise slider to match the current (possibly loaded) params
     const initTps = Math.round(1000 / params.simSpeed);
     speedSlider.value = String(Math.min(30, Math.max(1, initTps)));
     speedVal.textContent = speedSlider.value;
@@ -83,14 +98,14 @@ export function setupControls(
 
   // ── Stats display ─────────────────────────────────────────────────────────
   setInterval(() => {
-    const tick = document.getElementById('stat-tick');
+    const tick   = document.getElementById('stat-tick');
     const plants = document.getElementById('stat-plants');
-    const herbs = document.getElementById('stat-herbs');
-    const carns = document.getElementById('stat-carns');
-    if (tick) tick.textContent = String(sim.tickCount);
+    const herbs  = document.getElementById('stat-herbs');
+    const carns  = document.getElementById('stat-carns');
+    if (tick)   tick.textContent   = String(sim.tickCount);
     if (plants) plants.textContent = String(sim.plantCount);
-    if (herbs) herbs.textContent = String(sim.herbivoreCount);
-    if (carns) carns.textContent = String(sim.carnivoreCount);
+    if (herbs)  herbs.textContent  = String(sim.herbivoreCount);
+    if (carns)  carns.textContent  = String(sim.carnivoreCount);
   }, 200);
 
   // ── Entity sliders ────────────────────────────────────────────────────────
@@ -105,39 +120,39 @@ export function setupControls(
   }, 'initialCounts');
 
   createSliderGroup('Plants', '#4caf50', [
-    { key: 'nutrientMax',  label: 'Nutrient Max',  min: 2, max: 20,  step: 1,      value: params.plant.nutrientMax },
+    { key: 'nutrientMax',  label: 'Nutrient Max',  min: 2,     max: 20,  step: 1,     value: params.plant.nutrientMax },
     { key: 'growthRate',   label: 'Growth Rate',   min: 0.005, max: 0.1, step: 0.005, value: params.plant.growthRate,
       format: v => v.toFixed(3) },
-    { key: 'spawnRadius',  label: 'Spawn Radius',  min: 1, max: 10,  step: 1,      value: params.plant.spawnRadius },
+    { key: 'spawnRadius',  label: 'Spawn Radius',  min: 1,     max: 10,  step: 1,     value: params.plant.spawnRadius },
   ], panelEl, (key, value) => {
     (params.plant as unknown as Record<string, number>)[key] = value;
   }, 'plant');
 
   createSliderGroup('Herbivores', '#42a5f5', [
-    { key: 'speed',            label: 'Speed',           min: 1, max: 8,    step: 1,      value: params.herbivore.speed },
-    { key: 'nutrientMax',      label: 'Nutrient Max',    min: 10, max: 120, step: 1,      value: params.herbivore.nutrientMax },
-    { key: 'nutrientLossRate', label: 'Loss Rate',       min: 0.01, max: 0.5, step: 0.01, value: params.herbivore.nutrientLossRate,
+    { key: 'speed',            label: 'Speed',           min: 1,    max: 8,    step: 1,    value: params.herbivore.speed },
+    { key: 'nutrientMax',      label: 'Nutrient Max',    min: 10,   max: 120,  step: 1,    value: params.herbivore.nutrientMax },
+    { key: 'nutrientLossRate', label: 'Loss Rate',       min: 0.01, max: 0.5,  step: 0.01, value: params.herbivore.nutrientLossRate,
       format: v => v.toFixed(2) },
-    { key: 'perceptionRadius', label: 'Perception',      min: 2, max: 30,   step: 1,      value: params.herbivore.perceptionRadius },
-    { key: 'mateThreshold',    label: 'Mate Threshold',  min: 5, max: 100,  step: 1,      value: params.herbivore.mateThreshold },
-    { key: 'mateChance',       label: 'Mate Chance',     min: 0.05, max: 1.0, step: 0.05, value: params.herbivore.mateChance,
+    { key: 'perceptionRadius', label: 'Perception',      min: 2,    max: 30,   step: 1,    value: params.herbivore.perceptionRadius },
+    { key: 'mateThreshold',    label: 'Mate Threshold',  min: 5,    max: 100,  step: 1,    value: params.herbivore.mateThreshold },
+    { key: 'mateChance',       label: 'Mate Chance',     min: 0.05, max: 1.0,  step: 0.05, value: params.herbivore.mateChance,
       format: v => v.toFixed(2) },
   ], panelEl, (key, value) => {
     (params.herbivore as unknown as Record<string, number>)[key] = value;
   }, 'herbivore');
 
   createSliderGroup('Carnivores', '#ef5350', [
-    { key: 'speed',            label: 'Speed',           min: 1, max: 8,    step: 1,      value: params.carnivore.speed },
-    { key: 'nutrientMax',      label: 'Nutrient Max',    min: 10, max: 150, step: 1,      value: params.carnivore.nutrientMax },
-    { key: 'nutrientLossRate', label: 'Loss Rate',       min: 0.01, max: 0.5, step: 0.01, value: params.carnivore.nutrientLossRate,
+    { key: 'speed',                  label: 'Speed',             min: 1,    max: 8,    step: 1,    value: params.carnivore.speed },
+    { key: 'nutrientMax',            label: 'Nutrient Max',      min: 10,   max: 150,  step: 1,    value: params.carnivore.nutrientMax },
+    { key: 'nutrientLossRate',       label: 'Loss Rate',         min: 0.01, max: 0.5,  step: 0.01, value: params.carnivore.nutrientLossRate,
       format: v => v.toFixed(2) },
-    { key: 'perceptionRadius', label: 'Perception',      min: 2, max: 30,   step: 1,      value: params.carnivore.perceptionRadius },
-    { key: 'mateThreshold',    label: 'Mate Threshold',  min: 5, max: 120,  step: 1,      value: params.carnivore.mateThreshold },
-    { key: 'mateChance',       label: 'Mate Chance',     min: 0.05, max: 1.0, step: 0.05, value: params.carnivore.mateChance,
+    { key: 'perceptionRadius',       label: 'Perception',        min: 2,    max: 30,   step: 1,    value: params.carnivore.perceptionRadius },
+    { key: 'mateThreshold',          label: 'Mate Threshold',    min: 5,    max: 120,  step: 1,    value: params.carnivore.mateThreshold },
+    { key: 'mateChance',             label: 'Mate Chance',       min: 0.05, max: 1.0,  step: 0.05, value: params.carnivore.mateChance,
       format: v => v.toFixed(2) },
-    { key: 'killChance',             label: 'Kill Chance',       min: 0.05, max: 1.0, step: 0.05, value: params.carnivore.killChance,
+    { key: 'killChance',             label: 'Kill Chance',       min: 0.05, max: 1.0,  step: 0.05, value: params.carnivore.killChance,
       format: v => v.toFixed(2) },
-    { key: 'failedKillStunDuration', label: 'Miss Stun Duration', min: 0,    max: 20,  step: 1,    value: params.carnivore.failedKillStunDuration },
+    { key: 'failedKillStunDuration', label: 'Miss Stun Duration', min: 0,   max: 20,   step: 1,    value: params.carnivore.failedKillStunDuration },
   ], panelEl, (key, value) => {
     (params.carnivore as unknown as Record<string, number>)[key] = value;
   }, 'carnivore');
@@ -156,6 +171,42 @@ export function setupControls(
     saveSettings(params, initialCounts);
     saveBtn.textContent = 'Saved!';
     setTimeout(() => { saveBtn.textContent = 'Save Settings'; }, 1500);
+  });
+
+  // ── Named configs ─────────────────────────────────────────────────────────
+  const configSelect     = document.getElementById('config-select')     as HTMLSelectElement;
+  const loadConfigBtn    = document.getElementById('btn-load-config')    as HTMLButtonElement;
+  const deleteConfigBtn  = document.getElementById('btn-delete-config')  as HTMLButtonElement;
+  const configNameInput  = document.getElementById('config-name-input')  as HTMLInputElement;
+  const saveConfigBtn    = document.getElementById('btn-save-config')    as HTMLButtonElement;
+
+  // Populate dropdown on startup
+  populateConfigSelect(configSelect, loadNamedConfigs());
+
+  loadConfigBtn?.addEventListener('click', () => {
+    const name = configSelect.value;
+    if (!name) return;
+    const cfg = loadNamedConfigs().find(c => c.name === name);
+    if (!cfg) return;
+    applySettingsToSliders({ params: cfg.params, initialCounts: cfg.initialCounts }, panelEl, speedSlider);
+  });
+
+  deleteConfigBtn?.addEventListener('click', () => {
+    const name = configSelect.value;
+    if (!name) return;
+    const updated = removeNamedConfig(name);
+    populateConfigSelect(configSelect, updated);
+  });
+
+  saveConfigBtn?.addEventListener('click', () => {
+    const name = configNameInput.value.trim();
+    if (!name) { configNameInput.focus(); return; }
+    const updated = addOrUpdateNamedConfig(name, params, initialCounts);
+    populateConfigSelect(configSelect, updated);
+    configSelect.value = name;
+    configNameInput.value = '';
+    saveConfigBtn.textContent = 'Saved!';
+    setTimeout(() => { saveConfigBtn.textContent = 'Save as Config'; }, 1500);
   });
 }
 
