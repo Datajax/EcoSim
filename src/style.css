@@ -1,0 +1,240 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:        #0d1a0d;
+  --bg-panel:  #111b11;
+  --bg-card:   #172117;
+  --border:    #2a3a2a;
+  --text:      #c8dcc8;
+  --text-dim:  #7a9a7a;
+  --accent:    #4caf50;
+  --plant:     #4caf50;
+  --herb:      #42a5f5;
+  --carn:      #ef5350;
+  --radius:    6px;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size:   14px;
+  color:       var(--text);
+  background:  var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 16px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+header .subtitle {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+#main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ── Canvas panel ────────────────────────────────────────────────────────── */
+
+#canvas-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 12px;
+  gap: 8px;
+  background: var(--bg);
+}
+
+#sim-canvas {
+  display: block;
+  image-rendering: pixelated;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* ── Stats bar ───────────────────────────────────────────────────────────── */
+
+#stats-bar {
+  display: flex;
+  gap: 18px;
+  padding: 4px 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  width: 100%;
+}
+
+.stat strong {
+  font-weight: 600;
+}
+
+.plant-stat strong { color: var(--plant); }
+.herb-stat  strong { color: var(--herb); }
+.carn-stat  strong { color: var(--carn); }
+
+/* ── Controls bar ────────────────────────────────────────────────────────── */
+
+#controls-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 2px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius);
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  transition: filter 0.15s;
+}
+
+button:hover { filter: brightness(1.15); }
+button:active { filter: brightness(0.9); }
+
+.btn-primary {
+  background: var(--accent);
+  color: #000;
+}
+
+.btn-primary.active {
+  background: #ef5350;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.speed-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.speed-control input[type=range] {
+  width: 90px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.speed-control #sim-speed-val {
+  min-width: 20px;
+  text-align: right;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.unit { color: var(--text-dim); }
+
+/* ── Small button variant ────────────────────────────────────────────────── */
+
+.btn-small {
+  padding: 4px 10px;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+}
+
+/* ── Slider panel ────────────────────────────────────────────────────────── */
+
+#slider-panel-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 4px;
+}
+
+#slider-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  background: var(--bg-panel);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.slider-group {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  background: var(--bg-card);
+}
+
+.slider-group legend {
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 10px;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.slider-value {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 12px;
+  min-width: 36px;
+  text-align: right;
+}
+
+.slider-row input[type=range] {
+  width: 100%;
+  cursor: pointer;
+  accent-color: var(--accent);
+}

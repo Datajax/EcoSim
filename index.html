@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoSim — Ecological Simulator</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Header -->
+      <header>
+        <h1>EcoSim</h1>
+        <p class="subtitle">Ecological Simulator</p>
+      </header>
+
+      <div id="main-layout">
+        <!-- Left: Canvas -->
+        <div id="canvas-panel">
+          <canvas id="sim-canvas"></canvas>
+
+          <!-- Stats bar -->
+          <div id="stats-bar">
+            <span class="stat">Tick: <strong id="stat-tick">0</strong></span>
+            <span class="stat plant-stat">Plants: <strong id="stat-plants">0</strong></span>
+            <span class="stat herb-stat">Herbivores: <strong id="stat-herbs">0</strong></span>
+            <span class="stat carn-stat">Carnivores: <strong id="stat-carns">0</strong></span>
+          </div>
+
+          <!-- Controls bar -->
+          <div id="controls-bar">
+            <button id="btn-start" class="btn-primary">Start</button>
+            <button id="btn-step" class="btn-secondary">Step</button>
+            <button id="btn-reset" class="btn-secondary">Reset</button>
+            <div class="speed-control">
+              <label for="sim-speed">Speed</label>
+              <input type="range" id="sim-speed" min="1" max="30" step="1" value="10" />
+              <span id="sim-speed-val">10</span>
+              <span class="unit">ticks/s</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Sliders -->
+        <div id="slider-panel">
+          <div id="slider-panel-header">
+            <button id="btn-defaults" class="btn-secondary btn-small">Reset to Defaults</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
