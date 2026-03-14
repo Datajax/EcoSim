@@ -1,0 +1,55 @@
+EcoSim Stability Report
+Generated: 2026-03-14T21:27:01.648Z
+──────────────────────────────────────────────────────
+Config    : 5000k2
+Runs      : 1000
+Max ticks : 5001
+Runtime   : 4095.6s
+──────────────────────────────────────────────────────
+Initial counts
+  Plants     : 1200
+  Herbivores : 200
+  Carnivores : 19
+──────────────────────────────────────────────────────
+Plant parameters
+  Nutrient max  : 5
+  Growth rate   : 0.075
+  Spawn radius  : 9
+Herbivore parameters
+  Nutrient max  : 108
+  Loss rate     : 0.14
+  Speed         : 7
+  Perception    : 30
+  Mate threshold: 14
+  Mate chance   : 0.75
+Carnivore parameters
+  Nutrient max  : 89
+  Loss rate     : 0.23
+  Speed         : 1
+  Perception    : 20
+  Mate threshold: 68
+  Mate chance   : 0.3
+  Kill chance   : 0.75
+  Miss stun dur : 3
+──────────────────────────────────────────────────────
+RESULTS
+  Survived  5001 ticks :  573  (57.3%)
+  Collapsed before 5001:  427  (42.7%)
+
+  Which population collapsed first:
+    Plants     went to 0:   20  (4.7% of collapses)
+    Herbivores went to 0:    0  (0.0% of collapses)
+    Carnivores went to 0:  407  (95.3% of collapses)
+
+  Collapse tick distribution (500-tick buckets):
+        0-499       0  
+      500-999       1  
+     1000-1499     10  
+     1500-1999     32  █
+     2000-2499     67  ███
+     2500-2999     80  ███
+     3000-3499     62  ██
+     3500-3999     60  ██
+     4000-4499     59  ██
+     4500-4999     56  ██
+──────────────────────────────────────────────────────

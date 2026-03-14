@@ -1,8 +1,12 @@
 /**
  * Run N simulations with a fixed named config and report survival stats.
- * Usage:  npx tsx scripts/test_config.ts [configName] [runs]
- * Example: npx tsx scripts/test_config.ts 5000k1 1000
+ * Usage:  npx tsx scripts/test_config.ts [configName] [runs] [maxTicks]
+ * Example: npx tsx scripts/test_config.ts 5000k2 1000 10000
  */
+
+import { writeFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 import { Grid }           from '../src/grid.js';
 import { SpatialIndex }   from '../src/ai/spatialIndex.js';
@@ -139,7 +143,7 @@ class HeadlessSim {
 
 const configName = process.argv[2] ?? '5000k1';
 const RUNS       = parseInt(process.argv[3] ?? '1000', 10);
-const MAX_TICKS  = 5000;
+const MAX_TICKS  = parseInt(process.argv[4] ?? '5000', 10);
 
 const cfg = NAMED_CONFIGS[configName];
 if (!cfg) {
@@ -153,10 +157,13 @@ console.log(`  Herbivores: ${cfg.initialCounts.herbivore} start  nutrientMax=${c
 console.log(`  Carnivores: ${cfg.initialCounts.carnivore} start  nutrientMax=${cfg.params.carnivore.nutrientMax}  lossRate=${cfg.params.carnivore.nutrientLossRate}  killChance=${cfg.params.carnivore.killChance}`);
 console.log();
 
+const BUCKET_SIZE  = Math.floor(MAX_TICKS / 10);
+const NUM_BUCKETS  = 10;
+
 let survived = 0;
 let collapsed = 0;
 const collapsedBy: Record<string, number> = { plants: 0, herbivores: 0, carnivores: 0 };
-const collapseTickBuckets: number[] = new Array(10).fill(0); // 0-499, 500-999, ..., 4500-4999
+const collapseTickBuckets: number[] = new Array(NUM_BUCKETS).fill(0);
 
 const t0 = Date.now();
 
@@ -171,7 +178,7 @@ for (let i = 0; i < RUNS; i++) {
       if (sim.plantCount === 0)     collapsedBy.plants++;
       if (sim.herbivoreCount === 0) collapsedBy.herbivores++;
       if (sim.carnivoreCount === 0) collapsedBy.carnivores++;
-      collapseTickBuckets[Math.min(9, Math.floor(t / 500))]++;
+      collapseTickBuckets[Math.min(NUM_BUCKETS - 1, Math.floor(t / BUCKET_SIZE))]++;
       break;
     }
   }
@@ -185,28 +192,79 @@ for (let i = 0; i < RUNS; i++) {
   }
 }
 
-const elapsed = ((Date.now() - t0) / 1000).toFixed(1);
+const elapsed     = ((Date.now() - t0) / 1000).toFixed(1);
 const survivePct  = (survived  / RUNS * 100).toFixed(1);
 const collapsePct = (collapsed / RUNS * 100).toFixed(1);
+const sep         = '─'.repeat(54);
 
-console.log(`\n${'─'.repeat(50)}`);
-console.log(`Config: ${configName}   Runs: ${RUNS}   Time: ${elapsed}s`);
-console.log(`${'─'.repeat(50)}`);
-console.log(`  Survived  5000 ticks : ${String(survived).padStart(4)}  (${survivePct}%)`);
-console.log(`  Collapsed before 5000: ${String(collapsed).padStart(4)}  (${collapsePct}%)`);
+// ── Build report string ───────────────────────────────────────────────────────
+const lines: string[] = [];
+const w = (s: string) => lines.push(s);
+
+w(`EcoSim Stability Report`);
+w(`Generated: ${new Date().toISOString()}`);
+w(sep);
+w(`Config    : ${configName}`);
+w(`Runs      : ${RUNS}`);
+w(`Max ticks : ${MAX_TICKS}`);
+w(`Runtime   : ${elapsed}s`);
+w(sep);
+w(`Initial counts`);
+w(`  Plants     : ${cfg.initialCounts.plant}`);
+w(`  Herbivores : ${cfg.initialCounts.herbivore}`);
+w(`  Carnivores : ${cfg.initialCounts.carnivore}`);
+w(sep);
+w(`Plant parameters`);
+w(`  Nutrient max  : ${cfg.params.plant.nutrientMax}`);
+w(`  Growth rate   : ${cfg.params.plant.growthRate}`);
+w(`  Spawn radius  : ${cfg.params.plant.spawnRadius}`);
+w(`Herbivore parameters`);
+w(`  Nutrient max  : ${cfg.params.herbivore.nutrientMax}`);
+w(`  Loss rate     : ${cfg.params.herbivore.nutrientLossRate}`);
+w(`  Speed         : ${cfg.params.herbivore.speed}`);
+w(`  Perception    : ${cfg.params.herbivore.perceptionRadius}`);
+w(`  Mate threshold: ${cfg.params.herbivore.mateThreshold}`);
+w(`  Mate chance   : ${cfg.params.herbivore.mateChance}`);
+w(`Carnivore parameters`);
+w(`  Nutrient max  : ${cfg.params.carnivore.nutrientMax}`);
+w(`  Loss rate     : ${cfg.params.carnivore.nutrientLossRate}`);
+w(`  Speed         : ${cfg.params.carnivore.speed}`);
+w(`  Perception    : ${cfg.params.carnivore.perceptionRadius}`);
+w(`  Mate threshold: ${cfg.params.carnivore.mateThreshold}`);
+w(`  Mate chance   : ${cfg.params.carnivore.mateChance}`);
+w(`  Kill chance   : ${cfg.params.carnivore.killChance}`);
+w(`  Miss stun dur : ${cfg.params.carnivore.failedKillStunDuration}`);
+w(sep);
+w(`RESULTS`);
+w(`  Survived  ${MAX_TICKS} ticks : ${String(survived).padStart(4)}  (${survivePct}%)`);
+w(`  Collapsed before ${MAX_TICKS}: ${String(collapsed).padStart(4)}  (${collapsePct}%)`);
 
 if (collapsed > 0) {
-  console.log(`\n  Collapsed by population:`);
-  console.log(`    Plants     went to 0: ${collapsedBy.plants}`);
-  console.log(`    Herbivores went to 0: ${collapsedBy.herbivores}`);
-  console.log(`    Carnivores went to 0: ${collapsedBy.carnivores}`);
-
-  console.log(`\n  Collapse tick distribution:`);
-  for (let b = 0; b < 10; b++) {
-    const lo = b * 500, hi = lo + 499;
+  w(``);
+  w(`  Which population collapsed first:`);
+  w(`    Plants     went to 0: ${String(collapsedBy.plants).padStart(4)}  (${(collapsedBy.plants / collapsed * 100).toFixed(1)}% of collapses)`);
+  w(`    Herbivores went to 0: ${String(collapsedBy.herbivores).padStart(4)}  (${(collapsedBy.herbivores / collapsed * 100).toFixed(1)}% of collapses)`);
+  w(`    Carnivores went to 0: ${String(collapsedBy.carnivores).padStart(4)}  (${(collapsedBy.carnivores / collapsed * 100).toFixed(1)}% of collapses)`);
+  w(``);
+  w(`  Collapse tick distribution (${BUCKET_SIZE}-tick buckets):`);
+  for (let b = 0; b < NUM_BUCKETS; b++) {
+    const lo    = b * BUCKET_SIZE;
+    const hi    = lo + BUCKET_SIZE - 1;
     const count = collapseTickBuckets[b];
-    const bar = '█'.repeat(Math.round(count / RUNS * 40));
-    console.log(`    ${String(lo).padStart(4)}-${String(hi).padEnd(4)}  ${String(count).padStart(4)}  ${bar}`);
+    const bar   = '█'.repeat(Math.round(count / RUNS * 40));
+    w(`    ${String(lo).padStart(5)}-${String(hi).padEnd(5)}  ${String(count).padStart(4)}  ${bar}`);
   }
 }
-console.log(`${'─'.repeat(50)}`);
+w(sep);
+
+const report = lines.join('\n');
+
+// Print to console
+console.log(`\n${report}`);
+
+// Write to file
+const __dir      = dirname(fileURLToPath(import.meta.url));
+const timestamp  = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+const outFile    = join(__dir, `results_${configName}_${RUNS}runs_${MAX_TICKS}ticks_${timestamp}.txt`);
+writeFileSync(outFile, report);
+console.log(`\nReport saved to scripts/${outFile.split(/[\\/]scripts[\\/]/)[1]}`);
