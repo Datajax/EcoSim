@@ -1,0 +1,34 @@
+{
+  "params": {
+    "plant": {
+      "nutrientMax": 4,
+      "growthRate": 0.030000000000000002,
+      "spawnRadius": 2
+    },
+    "herbivore": {
+      "nutrientMax": 33,
+      "nutrientLossRate": 0.09,
+      "speed": 2,
+      "perceptionRadius": 10,
+      "mateThreshold": 32,
+      "mateChance": 0.9500000000000001,
+      "killChance": 1
+    },
+    "carnivore": {
+      "nutrientMax": 91,
+      "nutrientLossRate": 0.17,
+      "speed": 3,
+      "perceptionRadius": 6,
+      "mateThreshold": 46,
+      "mateChance": 0.8,
+      "killChance": 0.5,
+      "failedKillStunDuration": 6
+    },
+    "simSpeed": 100
+  },
+  "initialCounts": {
+    "plant": 550,
+    "herbivore": 70,
+    "carnivore": 8
+  }
+}
