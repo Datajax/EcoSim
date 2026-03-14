@@ -13,7 +13,8 @@ export function createSliderGroup(
   color: string,
   defs: SliderDef[],
   container: HTMLElement,
-  onChange: (key: string, value: number) => void
+  onChange: (key: string, value: number) => void,
+  group?: string
 ): void {
   const fieldset = document.createElement('fieldset');
   fieldset.className = 'slider-group';
@@ -43,6 +44,10 @@ export function createSliderGroup(
     input.step = String(def.step);
     input.value = String(def.value);
     input.dataset.defaultValue = String(def.value);
+    if (group) {
+      input.dataset.paramGroup = group;
+      input.dataset.paramKey = def.key;
+    }
 
     input.addEventListener('input', () => {
       const v = parseFloat(input.value);

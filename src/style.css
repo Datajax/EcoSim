@@ -181,6 +181,7 @@ button:active { filter: brightness(0.9); }
 #slider-panel-header {
   display: flex;
   justify-content: flex-end;
+  gap: 6px;
   margin-bottom: 4px;
 }
 

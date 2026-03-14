@@ -2,6 +2,33 @@ import { createSliderGroup } from './sliderGroups';
 import type { SimulationEngine } from '../simulation';
 import type { SimParams, InitialCounts } from '../types';
 import { DEFAULT_PARAMS } from '../config';
+import { loadSettings, saveSettings, type PersistedSettings } from '../persistence';
+
+function applySettingsToSliders(
+  saved: PersistedSettings,
+  panel: HTMLElement,
+  speedSlider: HTMLInputElement | null,
+): void {
+  panel.querySelectorAll<HTMLInputElement>('input[type="range"][data-param-group]').forEach(input => {
+    const group = input.dataset.paramGroup!;
+    const key = input.dataset.paramKey!;
+    let value: number | undefined;
+    if (group === 'initialCounts') {
+      value = (saved.initialCounts as unknown as Record<string, number>)[key];
+    } else {
+      value = (saved.params as unknown as Record<string, Record<string, number>>)[group]?.[key];
+    }
+    if (value === undefined) return;
+    input.value = String(value);
+    input.dispatchEvent(new Event('input'));
+  });
+
+  if (speedSlider && saved.params.simSpeed) {
+    const tps = Math.round(1000 / saved.params.simSpeed);
+    speedSlider.value = String(Math.min(30, Math.max(1, tps)));
+    speedSlider.dispatchEvent(new Event('input'));
+  }
+}
 
 export function setupControls(
   sim: SimulationEngine,
@@ -13,6 +40,11 @@ export function setupControls(
   const speedSlider = document.getElementById('sim-speed') as HTMLInputElement;
   const speedVal = document.getElementById('sim-speed-val') as HTMLSpanElement;
   if (speedSlider && speedVal) {
+    // Initialise slider to match the current (possibly loaded) params
+    const initTps = Math.round(1000 / params.simSpeed);
+    speedSlider.value = String(Math.min(30, Math.max(1, initTps)));
+    speedVal.textContent = speedSlider.value;
+
     speedSlider.addEventListener('input', () => {
       const tps = parseInt(speedSlider.value);
       speedVal.textContent = String(tps);
@@ -49,28 +81,6 @@ export function setupControls(
     onReset(params, initialCounts);
   });
 
-  // ── Reset-to-defaults button ──────────────────────────────────────────────
-  const defaultsBtn = document.getElementById('btn-defaults') as HTMLButtonElement;
-  defaultsBtn?.addEventListener('click', () => {
-    // Reset every range input in the slider panel to its stored default value.
-    // Each input carries data-default-value set at creation time from DEFAULT_PARAMS.
-    // Dispatching a synthetic 'input' event re-runs the onChange callback, which
-    // updates the shared params object and the displayed value label automatically.
-    const panel = document.getElementById('slider-panel')!;
-    panel.querySelectorAll<HTMLInputElement>('input[type="range"]').forEach(input => {
-      const def = input.dataset.defaultValue;
-      if (def === undefined) return;
-      input.value = def;
-      input.dispatchEvent(new Event('input'));
-    });
-
-    // Also reset the global speed slider
-    if (speedSlider) {
-      speedSlider.value = '10';
-      speedSlider.dispatchEvent(new Event('input'));
-    }
-  });
-
   // ── Stats display ─────────────────────────────────────────────────────────
   setInterval(() => {
     const tick = document.getElementById('stat-tick');
@@ -92,7 +102,7 @@ export function setupControls(
     { key: 'carnivore', label: 'Carnivores', min: 1,   max: 100,  step: 1,   value: initialCounts.carnivore },
   ], panelEl, (key, value) => {
     (initialCounts as unknown as Record<string, number>)[key] = value;
-  });
+  }, 'initialCounts');
 
   createSliderGroup('Plants', '#4caf50', [
     { key: 'nutrientMax',  label: 'Nutrient Max',  min: 2, max: 20,  step: 1,      value: params.plant.nutrientMax },
@@ -101,7 +111,7 @@ export function setupControls(
     { key: 'spawnRadius',  label: 'Spawn Radius',  min: 1, max: 10,  step: 1,      value: params.plant.spawnRadius },
   ], panelEl, (key, value) => {
     (params.plant as unknown as Record<string, number>)[key] = value;
-  });
+  }, 'plant');
 
   createSliderGroup('Herbivores', '#42a5f5', [
     { key: 'speed',            label: 'Speed',           min: 1, max: 8,    step: 1,      value: params.herbivore.speed },
@@ -114,7 +124,7 @@ export function setupControls(
       format: v => v.toFixed(2) },
   ], panelEl, (key, value) => {
     (params.herbivore as unknown as Record<string, number>)[key] = value;
-  });
+  }, 'herbivore');
 
   createSliderGroup('Carnivores', '#ef5350', [
     { key: 'speed',            label: 'Speed',           min: 1, max: 8,    step: 1,      value: params.carnivore.speed },
@@ -130,6 +140,22 @@ export function setupControls(
     { key: 'failedKillStunDuration', label: 'Miss Stun Duration', min: 0,    max: 20,  step: 1,    value: params.carnivore.failedKillStunDuration },
   ], panelEl, (key, value) => {
     (params.carnivore as unknown as Record<string, number>)[key] = value;
+  }, 'carnivore');
+
+  // ── Load Saved button ─────────────────────────────────────────────────────
+  const defaultsBtn = document.getElementById('btn-defaults') as HTMLButtonElement;
+  defaultsBtn?.addEventListener('click', () => {
+    const saved = loadSettings();
+    if (!saved) return;
+    applySettingsToSliders(saved, panelEl, speedSlider);
+  });
+
+  // ── Save Settings button ──────────────────────────────────────────────────
+  const saveBtn = document.getElementById('btn-save-settings') as HTMLButtonElement;
+  saveBtn?.addEventListener('click', () => {
+    saveSettings(params, initialCounts);
+    saveBtn.textContent = 'Saved!';
+    setTimeout(() => { saveBtn.textContent = 'Save Settings'; }, 1500);
   });
 }
 
