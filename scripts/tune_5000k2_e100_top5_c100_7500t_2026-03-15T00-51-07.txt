@@ -1,0 +1,260 @@
+════════════════════════════════════════════════════════════
+EcoSim Tuning Report
+Generated : 2026-03-14T23:08:32.904Z
+════════════════════════════════════════════════════════════
+Base config   : 5000k2
+Perturbation  : ±30% per parameter
+Phase 1       : 100 single-run permutations  (max 7500 ticks each)
+Phase 2       : 100 confirmation runs for each top-5 config
+════════════════════════════════════════════════════════════
+BASE CONFIG PARAMETERS
+  Initial counts   plants=1200  herbs=200  carns=19
+  Plant            nutrientMax=5  growthRate=0.075  spawnRadius=9
+  Herbivore        nutrientMax=108  lossRate=0.14  speed=7  perception=30  mateThresh=14  mateChance=0.75
+  Carnivore        nutrientMax=89  lossRate=0.23  speed=1  perception=20  mateThresh=68  mateChance=0.30  killChance=0.75  stunDur=3
+════════════════════════════════════════════════════════════
+PHASE 1 — EXPLORATION RESULTS
+100 permutations run once each (max 7500 ticks)
+────────────────────────────────────────────────────────────
+Rank   1  [perm   6]  SURVIVED 7500+ ticks
+  Initial counts   plants=1000  herbs=250  carns=22
+  Plant            nutrientMax=4  growthRate=0.075  spawnRadius=8
+  Herbivore        nutrientMax=120  lossRate=0.13  speed=8  perception=30  mateThresh=10  mateChance=0.95
+  Carnivore        nutrientMax=111  lossRate=0.25  speed=1  perception=23  mateThresh=88  mateChance=0.40  killChance=0.90  stunDur=3
+Rank   2  [perm   7]  SURVIVED 7500+ ticks
+  Initial counts   plants=1500  herbs=240  carns=23
+  Plant            nutrientMax=5  growthRate=0.085  spawnRadius=9
+  Herbivore        nutrientMax=120  lossRate=0.17  speed=6  perception=30  mateThresh=15  mateChance=0.95
+  Carnivore        nutrientMax=85  lossRate=0.20  speed=1  perception=24  mateThresh=80  mateChance=0.30  killChance=0.70  stunDur=3
+Rank   3  [perm   8]  SURVIVED 7500+ ticks
+  Initial counts   plants=1400  herbs=190  carns=18
+  Plant            nutrientMax=6  growthRate=0.070  spawnRadius=8
+  Herbivore        nutrientMax=85  lossRate=0.11  speed=7  perception=29  mateThresh=17  mateChance=0.60
+  Carnivore        nutrientMax=90  lossRate=0.18  speed=1  perception=25  mateThresh=54  mateChance=0.25  killChance=0.95  stunDur=3
+Rank   4  [perm   9]  SURVIVED 7500+ ticks
+  Initial counts   plants=1250  herbs=180  carns=23
+  Plant            nutrientMax=4  growthRate=0.075  spawnRadius=10
+  Herbivore        nutrientMax=89  lossRate=0.17  speed=6  perception=30  mateThresh=11  mateChance=0.65
+  Carnivore        nutrientMax=73  lossRate=0.18  speed=1  perception=24  mateThresh=55  mateChance=0.25  killChance=0.85  stunDur=3
+Rank   5  [perm  12]  SURVIVED 7500+ ticks
+  Initial counts   plants=1350  herbs=200  carns=23
+  Plant            nutrientMax=5  growthRate=0.085  spawnRadius=9
+  Herbivore        nutrientMax=119  lossRate=0.18  speed=7  perception=27  mateThresh=12  mateChance=0.60
+  Carnivore        nutrientMax=113  lossRate=0.16  speed=1  perception=20  mateThresh=73  mateChance=0.25  killChance=0.55  stunDur=3
+Rank   6  [perm  15]  SURVIVED 7500+ ticks
+Rank   7  [perm  17]  SURVIVED 7500+ ticks
+Rank   8  [perm  21]  SURVIVED 7500+ ticks
+Rank   9  [perm  33]  SURVIVED 7500+ ticks
+Rank  10  [perm  35]  SURVIVED 7500+ ticks
+Rank  11  [perm  39]  SURVIVED 7500+ ticks
+Rank  12  [perm  40]  SURVIVED 7500+ ticks
+Rank  13  [perm  44]  SURVIVED 7500+ ticks
+Rank  14  [perm  50]  SURVIVED 7500+ ticks
+Rank  15  [perm  53]  SURVIVED 7500+ ticks
+Rank  16  [perm  54]  SURVIVED 7500+ ticks
+Rank  17  [perm  57]  SURVIVED 7500+ ticks
+Rank  18  [perm  59]  SURVIVED 7500+ ticks
+Rank  19  [perm  62]  SURVIVED 7500+ ticks
+Rank  20  [perm  65]  SURVIVED 7500+ ticks
+Rank  21  [perm  70]  SURVIVED 7500+ ticks
+Rank  22  [perm  72]  SURVIVED 7500+ ticks
+Rank  23  [perm  73]  SURVIVED 7500+ ticks
+Rank  24  [perm  76]  SURVIVED 7500+ ticks
+Rank  25  [perm  77]  SURVIVED 7500+ ticks
+Rank  26  [perm  84]  SURVIVED 7500+ ticks
+Rank  27  [perm  87]  SURVIVED 7500+ ticks
+Rank  28  [perm  88]  SURVIVED 7500+ ticks
+Rank  29  [perm  89]  SURVIVED 7500+ ticks
+Rank  30  [perm  90]  SURVIVED 7500+ ticks
+Rank  31  [perm  91]  SURVIVED 7500+ ticks
+Rank  32  [perm  94]  SURVIVED 7500+ ticks
+Rank  33  [perm  96]  SURVIVED 7500+ ticks
+Rank  34  [perm  99]  SURVIVED 7500+ ticks
+Rank  35  [perm  30]  Collapsed at tick 6701
+Rank  36  [perm  79]  Collapsed at tick 5635
+Rank  37  [perm  27]  Collapsed at tick 5625
+Rank  38  [perm  60]  Collapsed at tick 4835
+Rank  39  [perm  71]  Collapsed at tick 4696
+Rank  40  [perm  75]  Collapsed at tick 4682
+Rank  41  [perm  98]  Collapsed at tick 4564
+Rank  42  [perm 100]  Collapsed at tick 4483
+Rank  43  [perm  45]  Collapsed at tick 3475
+Rank  44  [perm   1]  Collapsed at tick 3003
+Rank  45  [perm   5]  Collapsed at tick 2981
+Rank  46  [perm  69]  Collapsed at tick 2840
+Rank  47  [perm  74]  Collapsed at tick 2804
+Rank  48  [perm  10]  Collapsed at tick 2802
+Rank  49  [perm  61]  Collapsed at tick 2773
+Rank  50  [perm  86]  Collapsed at tick 2708
+Rank  51  [perm  42]  Collapsed at tick 2692
+Rank  52  [perm  38]  Collapsed at tick 2678
+Rank  53  [perm  36]  Collapsed at tick 2652
+Rank  54  [perm  11]  Collapsed at tick 2428
+Rank  55  [perm  25]  Collapsed at tick 2340
+Rank  56  [perm  92]  Collapsed at tick 2328
+Rank  57  [perm  83]  Collapsed at tick 2192
+Rank  58  [perm   2]  Collapsed at tick 2178
+Rank  59  [perm  19]  Collapsed at tick 2073
+Rank  60  [perm  97]  Collapsed at tick 2051
+Rank  61  [perm  48]  Collapsed at tick 2017
+Rank  62  [perm  41]  Collapsed at tick 1945
+Rank  63  [perm  16]  Collapsed at tick 1817
+Rank  64  [perm   4]  Collapsed at tick 1762
+Rank  65  [perm  95]  Collapsed at tick 1701
+Rank  66  [perm  23]  Collapsed at tick 1686
+Rank  67  [perm  22]  Collapsed at tick 1646
+Rank  68  [perm  66]  Collapsed at tick 1608
+Rank  69  [perm  93]  Collapsed at tick 1606
+Rank  70  [perm  49]  Collapsed at tick 1500
+Rank  71  [perm  67]  Collapsed at tick 1485
+Rank  72  [perm  63]  Collapsed at tick 1454
+Rank  73  [perm  37]  Collapsed at tick 1440
+Rank  74  [perm  58]  Collapsed at tick 1428
+Rank  75  [perm  46]  Collapsed at tick 1372
+Rank  76  [perm  31]  Collapsed at tick 1261
+Rank  77  [perm  32]  Collapsed at tick 1219
+Rank  78  [perm  43]  Collapsed at tick 1088
+Rank  79  [perm  34]  Collapsed at tick 1032
+Rank  80  [perm  64]  Collapsed at tick 1029
+Rank  81  [perm  51]  Collapsed at tick 1020
+Rank  82  [perm  81]  Collapsed at tick 984
+Rank  83  [perm  82]  Collapsed at tick 976
+Rank  84  [perm  26]  Collapsed at tick 933
+Rank  85  [perm  24]  Collapsed at tick 915
+Rank  86  [perm  47]  Collapsed at tick 902
+Rank  87  [perm  14]  Collapsed at tick 897
+Rank  88  [perm  55]  Collapsed at tick 882
+Rank  89  [perm  29]  Collapsed at tick 838
+Rank  90  [perm  56]  Collapsed at tick 803
+Rank  91  [perm  78]  Collapsed at tick 719
+Rank  92  [perm  85]  Collapsed at tick 704
+Rank  93  [perm  52]  Collapsed at tick 684
+Rank  94  [perm  18]  Collapsed at tick 675
+Rank  95  [perm  28]  Collapsed at tick 619
+Rank  96  [perm   3]  Collapsed at tick 612
+Rank  97  [perm  80]  Collapsed at tick 560
+Rank  98  [perm  68]  Collapsed at tick 527
+Rank  99  [perm  13]  Collapsed at tick 500
+Rank 100  [perm  20]  Collapsed at tick 437
+════════════════════════════════════════════════════════════
+PHASE 2 — CONFIRMATION RESULTS
+100 runs per config, max 7500 ticks
+────────────────────────────────────────────────────────────
+Config #1  [perm 6]  Phase-1 result: survived 7500+ ticks in phase 1
+  Initial counts   plants=1000  herbs=250  carns=22
+  Plant            nutrientMax=4  growthRate=0.075  spawnRadius=8
+  Herbivore        nutrientMax=120  lossRate=0.13  speed=8  perception=30  mateThresh=10  mateChance=0.95
+  Carnivore        nutrientMax=111  lossRate=0.25  speed=1  perception=23  mateThresh=88  mateChance=0.40  killChance=0.90  stunDur=3
+    Survived  7500 ticks :   96  (96.0%)
+    Collapsed before 7500:    4  (4.0%)
+    Which population collapsed:
+      Plants     :    0  (0.0%)
+      Herbivores :    0  (0.0%)
+      Carnivores :    4  (100.0%)
+    Collapse tick distribution (750-tick buckets):
+          0-749       0  
+        750-1499      0  
+       1500-2249      0  
+       2250-2999      0  
+       3000-3749      1  
+       3750-4499      2  █
+       4500-5249      0  
+       5250-5999      0  
+       6000-6749      1  
+       6750-7499      0  
+────────────────────────────────────────────────────────────
+Config #2  [perm 7]  Phase-1 result: survived 7500+ ticks in phase 1
+  Initial counts   plants=1500  herbs=240  carns=23
+  Plant            nutrientMax=5  growthRate=0.085  spawnRadius=9
+  Herbivore        nutrientMax=120  lossRate=0.17  speed=6  perception=30  mateThresh=15  mateChance=0.95
+  Carnivore        nutrientMax=85  lossRate=0.20  speed=1  perception=24  mateThresh=80  mateChance=0.30  killChance=0.70  stunDur=3
+    Survived  7500 ticks :   87  (87.0%)
+    Collapsed before 7500:   13  (13.0%)
+    Which population collapsed:
+      Plants     :    2  (15.4%)
+      Herbivores :    0  (0.0%)
+      Carnivores :   11  (84.6%)
+    Collapse tick distribution (750-tick buckets):
+          0-749       0  
+        750-1499      0  
+       1500-2249      0  
+       2250-2999      1  
+       3000-3749      2  █
+       3750-4499      3  █
+       4500-5249      1  
+       5250-5999      4  ██
+       6000-6749      0  
+       6750-7499      2  █
+────────────────────────────────────────────────────────────
+Config #3  [perm 8]  Phase-1 result: survived 7500+ ticks in phase 1
+  Initial counts   plants=1400  herbs=190  carns=18
+  Plant            nutrientMax=6  growthRate=0.070  spawnRadius=8
+  Herbivore        nutrientMax=85  lossRate=0.11  speed=7  perception=29  mateThresh=17  mateChance=0.60
+  Carnivore        nutrientMax=90  lossRate=0.18  speed=1  perception=25  mateThresh=54  mateChance=0.25  killChance=0.95  stunDur=3
+    Survived  7500 ticks :   59  (59.0%)
+    Collapsed before 7500:   41  (41.0%)
+    Which population collapsed:
+      Plants     :    6  (14.6%)
+      Herbivores :    0  (0.0%)
+      Carnivores :   35  (85.4%)
+    Collapse tick distribution (750-tick buckets):
+          0-749       0  
+        750-1499      0  
+       1500-2249      3  █
+       2250-2999      6  ██
+       3000-3749      8  ███
+       3750-4499      5  ██
+       4500-5249      5  ██
+       5250-5999      8  ███
+       6000-6749      2  █
+       6750-7499      4  ██
+────────────────────────────────────────────────────────────
+Config #4  [perm 9]  Phase-1 result: survived 7500+ ticks in phase 1
+  Initial counts   plants=1250  herbs=180  carns=23
+  Plant            nutrientMax=4  growthRate=0.075  spawnRadius=10
+  Herbivore        nutrientMax=89  lossRate=0.17  speed=6  perception=30  mateThresh=11  mateChance=0.65
+  Carnivore        nutrientMax=73  lossRate=0.18  speed=1  perception=24  mateThresh=55  mateChance=0.25  killChance=0.85  stunDur=3
+    Survived  7500 ticks :   62  (62.0%)
+    Collapsed before 7500:   38  (38.0%)
+    Which population collapsed:
+      Plants     :    1  (2.6%)
+      Herbivores :    0  (0.0%)
+      Carnivores :   37  (97.4%)
+    Collapse tick distribution (750-tick buckets):
+          0-749       0  
+        750-1499      3  █
+       1500-2249      8  ███
+       2250-2999      4  ██
+       3000-3749      4  ██
+       3750-4499      4  ██
+       4500-5249      7  ███
+       5250-5999      3  █
+       6000-6749      3  █
+       6750-7499      2  █
+────────────────────────────────────────────────────────────
+Config #5  [perm 12]  Phase-1 result: survived 7500+ ticks in phase 1
+  Initial counts   plants=1350  herbs=200  carns=23
+  Plant            nutrientMax=5  growthRate=0.085  spawnRadius=9
+  Herbivore        nutrientMax=119  lossRate=0.18  speed=7  perception=27  mateThresh=12  mateChance=0.60
+  Carnivore        nutrientMax=113  lossRate=0.16  speed=1  perception=20  mateThresh=73  mateChance=0.25  killChance=0.55  stunDur=3
+    Survived  7500 ticks :   96  (96.0%)
+    Collapsed before 7500:    4  (4.0%)
+    Which population collapsed:
+      Plants     :    1  (25.0%)
+      Herbivores :    0  (0.0%)
+      Carnivores :    3  (75.0%)
+    Collapse tick distribution (750-tick buckets):
+          0-749       0  
+        750-1499      0  
+       1500-2249      1  
+       2250-2999      0  
+       3000-3749      0  
+       3750-4499      0  
+       4500-5249      1  
+       5250-5999      1  
+       6000-6749      0  
+       6750-7499      1  
+────────────────────────────────────────────────────────────
+════════════════════════════════════════════════════════════
+Total runtime: 6154.3s
+════════════════════════════════════════════════════════════
