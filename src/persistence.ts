@@ -61,6 +61,71 @@ const DEFAULT_NAMED_CONFIGS: NamedConfig[] = [
       simSpeed: 100,
     },
   },
+  {
+    name: 'Perm-6-96%',
+    initialCounts: { plant: 1000, herbivore: 250, carnivore: 22 },
+    params: {
+      plant:     { nutrientMax: 4, growthRate: 0.075, spawnRadius: 8 },
+      herbivore: { nutrientMax: 120, nutrientLossRate: 0.13, speed: 8,
+                   perceptionRadius: 30, mateThreshold: 10, mateChance: 0.95, killChance: 1 },
+      carnivore: { nutrientMax: 111, nutrientLossRate: 0.25, speed: 1,
+                   perceptionRadius: 23, mateThreshold: 88, mateChance: 0.40,
+                   killChance: 0.90, failedKillStunDuration: 3 },
+      simSpeed: 100,
+    },
+  },
+  {
+    name: 'Perm-7-87%',
+    initialCounts: { plant: 1500, herbivore: 240, carnivore: 23 },
+    params: {
+      plant:     { nutrientMax: 5, growthRate: 0.085, spawnRadius: 9 },
+      herbivore: { nutrientMax: 120, nutrientLossRate: 0.17, speed: 6,
+                   perceptionRadius: 30, mateThreshold: 15, mateChance: 0.95, killChance: 1 },
+      carnivore: { nutrientMax: 85, nutrientLossRate: 0.20, speed: 1,
+                   perceptionRadius: 24, mateThreshold: 80, mateChance: 0.30,
+                   killChance: 0.70, failedKillStunDuration: 3 },
+      simSpeed: 100,
+    },
+  },
+  {
+    name: 'Perm-8-59%',
+    initialCounts: { plant: 1400, herbivore: 190, carnivore: 18 },
+    params: {
+      plant:     { nutrientMax: 6, growthRate: 0.070, spawnRadius: 8 },
+      herbivore: { nutrientMax: 85, nutrientLossRate: 0.11, speed: 7,
+                   perceptionRadius: 29, mateThreshold: 17, mateChance: 0.60, killChance: 1 },
+      carnivore: { nutrientMax: 90, nutrientLossRate: 0.18, speed: 1,
+                   perceptionRadius: 25, mateThreshold: 54, mateChance: 0.25,
+                   killChance: 0.95, failedKillStunDuration: 3 },
+      simSpeed: 100,
+    },
+  },
+  {
+    name: 'Perm-9-62%',
+    initialCounts: { plant: 1250, herbivore: 180, carnivore: 23 },
+    params: {
+      plant:     { nutrientMax: 4, growthRate: 0.075, spawnRadius: 10 },
+      herbivore: { nutrientMax: 89, nutrientLossRate: 0.17, speed: 6,
+                   perceptionRadius: 30, mateThreshold: 11, mateChance: 0.65, killChance: 1 },
+      carnivore: { nutrientMax: 73, nutrientLossRate: 0.18, speed: 1,
+                   perceptionRadius: 24, mateThreshold: 55, mateChance: 0.25,
+                   killChance: 0.85, failedKillStunDuration: 3 },
+      simSpeed: 100,
+    },
+  },
+  {
+    name: 'Perm-12-96%',
+    initialCounts: { plant: 1350, herbivore: 200, carnivore: 23 },
+    params: {
+      plant:     { nutrientMax: 5, growthRate: 0.085, spawnRadius: 9 },
+      herbivore: { nutrientMax: 119, nutrientLossRate: 0.18, speed: 7,
+                   perceptionRadius: 27, mateThreshold: 12, mateChance: 0.60, killChance: 1 },
+      carnivore: { nutrientMax: 113, nutrientLossRate: 0.16, speed: 1,
+                   perceptionRadius: 20, mateThreshold: 73, mateChance: 0.25,
+                   killChance: 0.55, failedKillStunDuration: 3 },
+      simSpeed: 100,
+    },
+  },
 ];
 
 export function loadNamedConfigs(): NamedConfig[] {
